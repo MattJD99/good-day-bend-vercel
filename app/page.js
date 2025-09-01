@@ -85,7 +85,7 @@ const Header = ({ setActivePage }) => (
                 <a onClick={() => setActivePage('home')} className="cursor-pointer hover:text-amber-600 transition-colors">Home</a>
                 <a onClick={() => setActivePage('calendar')} className="cursor-pointer hover:text-amber-600 transition-colors">Calendar</a>
                 <a onClick={() => setActivePage('business')} className="cursor-pointer hover:text-amber-600 transition-colors">For Businesses</a>
-                <a onClick={() => setActivePage('creators')} className="cursor-pointer hover:text-amber-600 transition-colors">For Creators</a>
+                <a href="/business-signup" className="cursor-pointer hover:text-amber-600 transition-colors">Join</a>
             </div>
             <a href="#contact" className="hidden md:block bg-stone-800 text-white px-5 py-2 rounded-full font-semibold hover:bg-stone-700 transition-transform hover:scale-105">
                 Get In Touch
