@@ -1,6 +1,7 @@
 'use client'; // This directive indicates that this is a client-side component in Next.js App Router
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 // --- MOCK API & SERVER-SIDE LOGIC ---
 // In a real Next.js project, the following two functions would be in separate files
@@ -77,7 +78,7 @@ const Header = ({ setActivePage }) => (
     <header className="bg-white/80 backdrop-blur-lg shadow-sm fixed w-full top-0 z-50 transition-all duration-300">
         <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setActivePage('home')}>
-                <svg className="w-10 h-10 text-stone-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5"/><path d="M2 7L12 12M12 12L22 7M12 12V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <Image src="/good day bend logo.jpg" alt="Good Day Bend" width={40} height={40} />
                 <span className="font-bold text-xl text-stone-800 font-serif">Good Day Bend</span>
             </div>
             <div className="hidden md:flex items-center space-x-8 font-medium text-stone-600">
