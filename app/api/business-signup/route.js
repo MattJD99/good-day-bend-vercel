@@ -4,7 +4,7 @@ export async function POST(request) {
     const formData = await request.json();
     
     // Use private environment variable for server-side API calls
-    const apiKey = process.env.GHL_API_KEY || process.env.NEXT_PUBLIC_GHL_API_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImxqYlhnaWdKZnF4enNQckU0a3FwIiwidmVyc2lvbiI6MSwiaWF0IjoxNzU2NzE0NjA0MjU0LCJzdWIiOiJOSjIwN2hId2ZXVVRrZVdnSDNjOSJ9.Giu8htyy0Mujg14_OIDO6t4NI4K2vcfKqA78q3xQDso";
+    const apiKey = process.env.GHL_API_KEY;
     
     console.log("Received business signup form data:", formData);
     console.log("Using API key:", apiKey ? `${apiKey.substring(0, 20)}...` : 'No API key found');
