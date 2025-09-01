@@ -2,12 +2,37 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
     const formData = await request.json();
-    const apiKey = process.env.NEXT_PUBLIC_GHL_API_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImxqYlhnaWdKZnF4enNQckU0a3FwIiwidmVyc2lvbiI6MSwiaWF0IjoxNzU2NzE0NjA0MjU0LCJzdWIiOiJOSjIwN2hId2ZXVVRrZVdnSDNjOSJ9.Giu8htyy0Mujg14_OIDO6t4NI4K2vcfKqA78q3xQDso";
-
+    
+    // Use private environment variable for server-side API calls
+    const apiKey = process.env.GHL_API_KEY || process.env.NEXT_PUBLIC_GHL_API_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImxqYlhnaWdKZnF4enNQckU0a3FwIiwidmVyc2lvbiI6MSwiaWF0IjoxNzU2NzE0NjA0MjU0LCJzdWIiOiJOSjIwN2hId2ZXVVRrZVdnSDNjOSJ9.Giu8htyy0Mujg14_OIDO6t4NI4K2vcfKqA78q3xQDso";
+    
     console.log("Received business signup form data:", formData);
+    console.log("Using API key:", apiKey ? `${apiKey.substring(0, 20)}...` : 'No API key found');
+
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.businessName) {
+        console.error("Missing required fields");
+        return NextResponse.json({ 
+            success: false, 
+            message: "Missing required fields. Please fill out all required fields." 
+        }, { status: 400 });
+    }
 
     try {
         const GHL_API_ENDPOINT = 'https://services.leadconnectorhq.com/contacts/';
+        
+        const requestBody = {
+            firstName: formData.name.split(' ')[0],
+            lastName: formData.name.split(' ').slice(1).join(' ') || 'N/A',
+            email: formData.email,
+            phone: formData.phone || '',
+            companyName: formData.businessName,
+            website: formData.website || '',
+            tags: ['Website Lead', 'Business Signup', 'Business Signup Form']
+        };
+
+        console.log("Sending to GHL API:", JSON.stringify(requestBody, null, 2));
+        
         const response = await fetch(GHL_API_ENDPOINT, {
             method: 'POST',
             headers: {
@@ -15,29 +40,41 @@ export async function POST(request) {
                 'Content-Type': 'application/json',
                 'Version': '2021-07-28'
             },
-            body: JSON.stringify({
-                firstName: formData.name.split(' ')[0],
-                lastName: formData.name.split(' ').slice(1).join(' ') || 'N/A',
-                email: formData.email,
-                phone: formData.phone,
-                businessName: formData.businessName,
-                website: formData.website,
-                tags: ['Website Lead', 'Business Signup', 'Business Signup Form']
-            })
+            body: JSON.stringify(requestBody)
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+        console.log("GHL API Response Status:", response.status);
+        console.log("GHL API Response Text:", responseText);
 
-        if (!response.ok) {
-            throw new Error(data.message || "Something went wrong");
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (parseError) {
+            console.error("Failed to parse GHL API response:", parseError);
+            data = { message: responseText };
         }
 
-        console.log("Successfully submitted to GHL API");
+        if (!response.ok) {
+            console.error("GHL API Error Response:", data);
+            throw new Error(data.message || `API Error: ${response.status} - ${responseText}`);
+        }
 
-        return NextResponse.json({ success: true, message: "Thank you for joining our community! We will be in touch shortly." });
+        console.log("Successfully submitted to GHL API:", data);
+
+        return NextResponse.json({ 
+            success: true, 
+            message: "Thank you for joining our community! We will be in touch shortly." 
+        });
 
     } catch (error) {
-        console.error("GHL API submission error:", error);
-        return NextResponse.json({ success: false, message: "Submission failed. Please try again." }, { status: 500 });
+        console.error("GHL API submission error:", error.message);
+        console.error("Full error:", error);
+        
+        // Return a more specific error message for debugging
+        return NextResponse.json({ 
+            success: false, 
+            message: `Submission failed: ${error.message}. Please try again or contact support.` 
+        }, { status: 500 });
     }
 }
