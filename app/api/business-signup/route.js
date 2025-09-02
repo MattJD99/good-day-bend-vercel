@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import jwt_decode from 'jwt-decode';
+
 export async function POST(request) {
     const formData = await request.json();
     
@@ -19,7 +21,9 @@ export async function POST(request) {
     }
 
     try {
-        const GHL_API_ENDPOINT = 'https://services.leadconnectorhq.com/contacts/';
+        // Get location ID from JWT payload
+        const decoded = jwt_decode(process.env.GHL_API_KEY);
+        const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/${decoded.location_id}/`;
         
         const requestBody = {
             firstName: formData.name.split(' ')[0],
@@ -33,12 +37,14 @@ export async function POST(request) {
 
         console.log("Sending to GHL API:", JSON.stringify(requestBody, null, 2));
         
+        // Add required API version header
         const response = await fetch(GHL_API_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
-                'Version': '2021-07-28'
+                'Version': '2021-07-28',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(requestBody)
         });
