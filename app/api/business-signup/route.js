@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export async function POST(request) {
     const formData = await request.json();
@@ -22,7 +22,7 @@ export async function POST(request) {
 
     try {
         // Get location ID from JWT payload
-        const decoded = jwt_decode(process.env.GHL_API_KEY);
+        const decoded = jwtDecode(process.env.GHL_API_KEY);
         const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/${decoded.location_id}/`;
         
         const requestBody = {
