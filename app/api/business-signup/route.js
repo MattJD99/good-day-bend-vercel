@@ -23,7 +23,7 @@ export async function POST(request) {
     try {
         // Get location ID from JWT payload
         const decoded = jwtDecode(process.env.GHL_API_KEY);
-        const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/${decoded.location_id}/`;
+        const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/${decoded.location_id}`;
         
         const requestBody = {
             firstName: formData.name.split(' ')[0],
