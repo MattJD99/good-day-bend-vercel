@@ -21,23 +21,30 @@ export async function POST(request) {
     }
 
     try {
-        // Get location ID from JWT payload
-        const decoded = jwtDecode(process.env.GHL_API_KEY);
-        const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/${decoded.location_id}`;
+        // Decode the JWT to get the location_id
+        const decoded = jwtDecode(apiKey);
+        const locationId = decoded.location_id;
+
+        if (!locationId) {
+            throw new Error("Location ID not found in API key.");
+        }
+
+        // Use the correct GoHighLevel v2 API endpoint for creating a contact
+        const GHL_API_ENDPOINT = `https://services.leadconnectorhq.com/contacts/`;
         
         const requestBody = {
             firstName: formData.name.split(' ')[0],
             lastName: formData.name.split(' ').slice(1).join(' ') || 'N/A',
             email: formData.email,
             phone: formData.phone || '',
+            locationId: locationId, // Pass locationId in the request body
             companyName: formData.businessName,
             website: formData.website || '',
             tags: ['Website Lead', 'Business Signup', 'Business Signup Form']
         };
 
-        console.log("Sending to GHL API:", JSON.stringify(requestBody, null, 2));
+        console.log("Sending to GHL API v2:", JSON.stringify(requestBody, null, 2));
         
-        // Add required API version header
         const response = await fetch(GHL_API_ENDPOINT, {
             method: 'POST',
             headers: {
