@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+// This route handles business signups, creating a user in the local DB and a contact in GHL.
 import { NextResponse } from 'next/server';
 import pool from '../../../db';
 import bcrypt from 'bcrypt';
