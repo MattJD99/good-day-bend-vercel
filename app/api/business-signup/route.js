@@ -8,8 +8,10 @@ export async function POST(request) {
     // Use private environment variable for server-side API calls
     const apiKey = process.env.GHL_API_KEY;
     
+    console.log("Environment Variables:");
+    console.log("GHL_API_KEY:", apiKey ? `${apiKey.substring(0, 20)}...` : 'MISSING');
+    console.log("NODE_ENV:", process.env.NODE_ENV);
     console.log("Received business signup form data:", formData);
-    console.log("Using API key:", apiKey ? `${apiKey.substring(0, 20)}...` : 'No API key found');
 
     // Validate required fields
     if (!formData.name || !formData.email || !formData.businessName) {
@@ -21,9 +23,23 @@ export async function POST(request) {
     }
 
     try {
-        // Decode the JWT to get the location_id
-        const decoded = jwtDecode(apiKey);
-        const locationId = decoded.location_id;
+    // Decode the JWT to get the location_id
+    let locationId;
+    try {
+      // Ensure apiKey is a string
+      if (typeof apiKey !== 'string') {
+        throw new Error('GHL_API_KEY is not a valid string');
+      }
+      
+      const decoded = jwtDecode(apiKey);
+      locationId = decoded.location_id;
+    } catch (error) {
+      console.error('Error decoding API key:', error);
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Invalid API key configuration: ' + error.message 
+      }, { status: 500 });
+    }
 
         if (!locationId) {
             throw new Error("Location ID not found in API key.");
@@ -74,6 +90,16 @@ export async function POST(request) {
         }
 
         console.log("Successfully submitted to GHL API:", data);
+    console.log("Request details:", {
+      endpoint: GHL_API_ENDPOINT,
+      headers: {
+        'Authorization': `Bearer [REDACTED]`,
+        'Content-Type': 'application/json',
+        'Version': '2021-07-28',
+        'Accept': 'application/json'
+      },
+      body: requestBody
+    });
 
         return NextResponse.json({ 
             success: true, 
@@ -85,9 +111,14 @@ export async function POST(request) {
         console.error("Full error:", error);
         
         // Return a more specific error message for debugging
+        let userMessage = error.message || "Submission failed. Please try again or contact support.";
+        // Hide server details in production
+        if (process.env.NODE_ENV === 'production') {
+          userMessage = "Submission failed. Please try again or contact support.";
+        }
         return NextResponse.json({ 
             success: false, 
-            message: `Submission failed: ${error.message}. Please try again or contact support.` 
+            message: userMessage 
         }, { status: 500 });
     }
 }

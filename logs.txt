@@ -1,0 +1,206 @@
+
+> good-day-bend@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+  ▲ Next.js 14.2.32
+  - Local:        http://localhost:3001
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.8s (518 modules)
+ GET / 200 in 8552ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ ✓ Compiled in 795ms (259 modules)
+ ○ Compiling /business-signup ...
+ ✓ Compiled /business-signup in 5.1s (496 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /business-signup 200 in 5610ms
+ ✓ Compiled /api/business-signup in 435ms (278 modules)
+Environment Variables:
+GHL_API_KEY: eyJhbGciOiJIUzI1NiIs...
+NODE_ENV: development
+Received business signup form data: {
+  name: 'Matthew De Sautel',
+  businessName: 'DaySaw.agency',
+  email: 'mdesautel@gmail.com',
+  phone: '5413506129',
+  website: 'https://daysaw.agency/'
+}
+Sending to GHL API v2: {
+  "firstName": "Matthew",
+  "lastName": "De Sautel",
+  "email": "mdesautel@gmail.com",
+  "phone": "5413506129",
+  "locationId": "ljbXgigJfqxzsPrE4kqp",
+  "companyName": "DaySaw.agency",
+  "website": "https://daysaw.agency/",
+  "tags": [
+    "Website Lead",
+    "Business Signup",
+    "Business Signup Form"
+  ]
+}
+GHL API Response Status: 401
+GHL API Response Text: {"statusCode":401,"message":"Invalid JWT"}
+GHL API Error Response: { statusCode: 401, message: 'Invalid JWT' }
+GHL API submission error: Invalid JWT
+Full error: Error: Invalid JWT
+    at POST (webpack-internal:///(rsc)/./app/api/business-signup/route.js:90:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57228
+    at async eT.execute (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46851)
+    at async eT.handle (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:58760)
+    at async doRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1366:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1588:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1496:28)
+    at async DevServer.renderPageComponent (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1924:24)
+    at async DevServer.renderToResponseImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:818:17)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:179:21)
+    at async handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:359:24)
+    at async requestHandlerImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:383:13)
+    at async Server.requestListener (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/business-signup 500 in 945ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 585ms (530 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 829ms
+ GET /business-signup 200 in 290ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 127ms
+Environment Variables:
+GHL_API_KEY: eyJhbGciOiJIUzI1NiIs...
+NODE_ENV: development
+Received business signup form data: {
+  name: 'Matt D',
+  businessName: 'daysaw.agency',
+  email: 'mdesautel@gmail.com',
+  phone: '5554321212',
+  website: 'https://daysaw.agency'
+}
+Sending to GHL API v2: {
+  "firstName": "Matt",
+  "lastName": "D",
+  "email": "mdesautel@gmail.com",
+  "phone": "5554321212",
+  "locationId": "ljbXgigJfqxzsPrE4kqp",
+  "companyName": "daysaw.agency",
+  "website": "https://daysaw.agency",
+  "tags": [
+    "Website Lead",
+    "Business Signup",
+    "Business Signup Form"
+  ]
+}
+GHL API Response Status: 401
+GHL API Response Text: {"statusCode":401,"message":"Invalid JWT"}
+GHL API Error Response: { statusCode: 401, message: 'Invalid JWT' }
+GHL API submission error: Invalid JWT
+Full error: Error: Invalid JWT
+    at POST (webpack-internal:///(rsc)/./app/api/business-signup/route.js:90:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57228
+    at async eT.execute (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46851)
+    at async eT.handle (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:58760)
+    at async doRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1366:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1588:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1496:28)
+    at async DevServer.renderPageComponent (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1924:24)
+    at async DevServer.renderToResponseImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:818:17)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:179:21)
+    at async handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:359:24)
+    at async requestHandlerImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:383:13)
+    at async Server.requestListener (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/business-signup 500 in 373ms
+   Reload env: .env.local
+ ✓ Compiled in 2.4s (492 modules)
+   Reload env: .env.local
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from /Users/md/Desktop/good-day-bend-vercel/.next/cache/webpack/client-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from /Users/md/Desktop/good-day-bend-vercel/.next/cache/webpack/server-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+ ✓ Compiled in 1252ms (492 modules)
+   Reload env: .env.local
+ ✓ Compiled in 1461ms (492 modules)
+ GET /business-signup 200 in 427ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1211ms (495 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 1666ms
+ GET /business-signup 200 in 128ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 48ms
+ GET /business-signup 200 in 127ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 42ms
+ GET /business-signup 200 in 174ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 40ms
+ ○ Compiling /join ...
+ ✓ Compiled /join in 865ms (539 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 92ms
+ GET /join 200 in 1545ms
+ GET /business-signup 200 in 275ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 70ms
+ GET /business-signup 200 in 195ms
+ ○ Compiling /api/business-signup ...
+ ✓ Compiled /api/business-signup in 567ms (299 modules)
+Environment Variables:
+GHL_API_KEY: <eyJhbGciOiJIUzI1NiI...
+NODE_ENV: development
+Received business signup form data: {
+  name: 'Matthew De Sautel',
+  businessName: 'DaySaw.agency',
+  email: 'mdesautel@gmail.com',
+  phone: '5413506129',
+  website: 'https://daysaw.agency/'
+}
+Sending to GHL API v2: {
+  "firstName": "Matthew",
+  "lastName": "De Sautel",
+  "email": "mdesautel@gmail.com",
+  "phone": "5413506129",
+  "locationId": "ljbXgigJfqxzsPrE4kqp",
+  "companyName": "DaySaw.agency",
+  "website": "https://daysaw.agency/",
+  "tags": [
+    "Website Lead",
+    "Business Signup",
+    "Business Signup Form"
+  ]
+}
+GHL API Response Status: 401
+GHL API Response Text: {"statusCode":401,"message":"Invalid JWT"}
+GHL API Error Response: { statusCode: 401, message: 'Invalid JWT' }
+GHL API submission error: Invalid JWT
+Full error: Error: Invalid JWT
+    at POST (webpack-internal:///(rsc)/./app/api/business-signup/route.js:90:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57228
+    at async eT.execute (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46851)
+    at async eT.handle (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:58760)
+    at async doRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1366:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1588:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1496:28)
+    at async DevServer.renderPageComponent (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1924:24)
+    at async DevServer.renderToResponseImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/base-server.js:818:17)
+    at async /Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:179:21)
+    at async handleRequest (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:359:24)
+    at async requestHandlerImpl (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/router-server.js:383:13)
+    at async Server.requestListener (/Users/md/Desktop/good-day-bend-vercel/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/business-signup 500 in 1019ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 224ms
+ GET /business-signup 200 in 133ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 36ms
