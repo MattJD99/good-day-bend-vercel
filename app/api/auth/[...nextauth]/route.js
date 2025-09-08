@@ -2,9 +2,8 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { Pool } from 'pg';
 const pool = new Pool({ connectionString: process.env.POSTGRES_URL });
-import { createAdapter } from "@next-auth/vercel-postgres-adapter";
-import { VercelKV } from '@vercel/kv';
-import bcrypt from 'bcryptjs';
+import PostgresAdapter from "@auth/pg-adapter";
+import bcrypt from 'bcrypt';
 
 export const authOptions = {
   providers: [
@@ -44,9 +43,7 @@ export const authOptions = {
       }
     })
   ],
-  adapter: createAdapter({
-    url: process.env.POSTGRES_URL,
-  }),
+  adapter: PostgresAdapter(pool),
   session: {
     strategy: 'jwt',
   },
