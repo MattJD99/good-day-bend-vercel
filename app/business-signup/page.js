@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const BusinessSignupPage = () => {
-    const [formData, setFormData] = useState({ name: '', businessName: '', email: '', phone: '', website: '' });
+    const router = useRouter();
+    const [formData, setFormData] = useState({ name: '', businessName: '', email: '', password: '', phone: '', website: '' });
     const [submissionStatus, setSubmissionStatus] = useState({ loading: false, success: false, message: '' });
 
     const handleChange = (e) => {
@@ -26,8 +29,32 @@ const BusinessSignupPage = () => {
             });
 
             const result = await response.json();
-            setSubmissionStatus({ loading: false, success: result.success, message: result.message });
 
+            if (!response.ok) {
+                setSubmissionStatus({ loading: false, success: false, message: result.message });
+                return;
+            }
+
+            setSubmissionStatus({ loading: false, success: true, message: result.message });
+
+            // Automatically sign in the user
+            const signInResponse = await signIn('credentials', {
+                email: formData.email,
+                password: formData.password,
+                redirect: false, // Do not redirect automatically
+            });
+
+            if (signInResponse.ok) {
+                // Redirect to home page on successful login
+                router.push('/');
+            } else {
+                // Handle failed login after successful signup
+                setSubmissionStatus({
+                    loading: false,
+                    success: false,
+                    message: "Signup successful, but login failed. Please try to log in manually."
+                });
+            }
         } catch (error) {
             console.error("Form submission error:", error);
             setSubmissionStatus({ loading: false, success: false, message: "An unexpected error occurred. Please try again." });
@@ -62,6 +89,20 @@ const BusinessSignupPage = () => {
                                             className="w-full p-4 bg-white text-gray-900 rounded-3xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200 hover:shadow-md"
                                             style={{ fontFamily: 'Roboto, sans-serif' }}
                                             placeholder="Enter your full name"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="password" className="block text-sm font-medium text-stone-700 mb-2" style={{ fontFamily: 'Roboto, sans-serif' }}>Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            required
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            className="w-full p-4 bg-white text-gray-900 rounded-3xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all duration-200 hover:shadow-md"
+                                            style={{ fontFamily: 'Roboto, sans-serif' }}
+                                            placeholder="Enter your password"
                                         />
                                     </div>
                                     <div>

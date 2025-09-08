@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-
+import { NextResponse } from 'next/server';
+import pool from '../../../db';
+import bcrypt from 'bcrypt';
 import { jwtDecode } from 'jwt-decode';
 
 export async function POST(request) {
@@ -14,7 +16,7 @@ export async function POST(request) {
     console.log("Received business signup form data:", formData);
 
     // Validate required fields
-    if (!formData.name || !formData.email || !formData.businessName) {
+    if (!formData.name || !formData.email || !formData.businessName || !formData.password) {
         console.error("Missing required fields");
         return NextResponse.json({ 
             success: false, 
@@ -22,24 +24,44 @@ export async function POST(request) {
         }, { status: 400 });
     }
 
+    const client = await pool.connect();
+
     try {
-    // Decode the JWT to get the location_id
-    let locationId;
-    try {
-      // Ensure apiKey is a string
-      if (typeof apiKey !== 'string') {
-        throw new Error('GHL_API_KEY is not a valid string');
-      }
-      
-      const decoded = jwtDecode(apiKey);
-      locationId = decoded.location_id;
-    } catch (error) {
-      console.error('Error decoding API key:', error);
-      return NextResponse.json({ 
-        success: false, 
-        message: 'Invalid API key configuration: ' + error.message 
-      }, { status: 500 });
-    }
+        await client.query('BEGIN');
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(formData.password, 10);
+
+        // Insert the new user into the database
+        const newUser = await client.query(
+            `INSERT INTO users (name, email, password, role)
+             VALUES ($1, $2, $3, 'business')
+             ON CONFLICT (email) DO NOTHING
+             RETURNING *`,
+            [formData.name, formData.email, hashedPassword]
+        );
+
+        if (newUser.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return NextResponse.json({
+                success: false,
+                message: 'User with this email already exists.'
+            }, { status: 409 });
+        }
+
+        // Decode the JWT to get the location_id
+        let locationId;
+        try {
+            // Ensure apiKey is a string
+            if (typeof apiKey !== 'string') {
+                throw new Error('GHL_API_KEY is not a valid string');
+            }
+
+            const decoded = jwtDecode(apiKey);
+            locationId = decoded.location_id;
+        } catch (error) {
+            console.error('Error decoding API key:', error);
+            throw new Error('Invalid API key configuration: ' + error.message);
+        }
 
         if (!locationId) {
             throw new Error("Location ID not found in API key.");
@@ -89,28 +111,28 @@ export async function POST(request) {
             throw new Error(data.message || `API Error: ${response.status} - ${responseText}`);
         }
 
-        console.log("Successfully submitted to GHL API:", data);
-    console.log("Request details:", {
-      endpoint: GHL_API_ENDPOINT,
-      headers: {
-        'Authorization': `Bearer [REDACTED]`,
-        'Content-Type': 'application/json',
-        'Version': '2021-07-28',
-        'Accept': 'application/json'
-      },
-      body: requestBody
-    });
-
+        await client.query('COMMIT');
+        console.log("Successfully submitted to GHL API and created user:", data);
+        console.log("Request details:", {
+            endpoint: GHL_API_ENDPOINT,
+            headers: {
+                'Authorization': `Bearer [REDACTED]`,
+                'Content-Type': 'application/json',
+                'Version': '2021-07-28',
+                'Accept': 'application/json'
+            },
+            body: requestBody
+        });
         return NextResponse.json({ 
             success: true, 
             message: "Thank you for joining our community! We will be in touch shortly." 
         });
 
     } catch (error) {
-        console.error("GHL API submission error:", error.message);
+        await client.query('ROLLBACK');
+        console.error("Error during signup process:", error.message);
         console.error("Full error:", error);
         
-        // Return a more specific error message for debugging
         let userMessage = error.message || "Submission failed. Please try again or contact support.";
         // Hide server details in production
         if (process.env.NODE_ENV === 'production') {
@@ -120,5 +142,7 @@ export async function POST(request) {
             success: false, 
             message: userMessage 
         }, { status: 500 });
+    } finally {
+        client.release();
     }
 }
